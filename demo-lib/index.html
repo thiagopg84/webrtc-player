@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTCPlayer</title>
+    <style>
+      html {
+        font-family: Arial;
+      }
+      h3 {
+        color: #888;
+        margin-bottom: 10px;
+      }
+      #playUrl {
+        width: 500px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 14px;
+      }
+      #playBtn, #stopBtn {
+        background-color: #FFF;
+        color: black;
+        border: solid #ccc 1px;
+        font-size: 14px;
+        padding: 10px;
+        width: 100px;
+        cursor: pointer;
+      }
+      #playBtn:hover, #stopBtn:hover {
+        background-color: #f1f1f1;
+      }
+      video {
+        margin-top: 20px;
+      }
+    </style>
+    <script type="module" src="./demo-lib.ts"></script>
+  </head>
+  <body>
+    <h3>URL</h3>
+    <input id="playUrl" value="https://127.0.0.1:8443/live/whip/whep.stream">
+    <input type="button" id="playBtn" value="Play">
+    <input type="button" id="stopBtn" value="Stop">
+    <input type="checkbox" id="audioOnlyChck" name="avcheckbox" onchange="handleAVCheckboxChange(this)">
+    <label for="audioOnlyChck" >Audio only</label>
+    <input type="checkbox" id="videoOnlyChck" name="avcheckbox" onchange="handleAVCheckboxChange(this)">
+    <label for="videoOnlyChck" >Video only</label>
+    <br>
+    <video autoplay muted controls playsinline>
+    <script type="text/javascript" >
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+
+      const configurationChangeHandler = function(url_param) {
+        return (e) => {
+          playUrl = e.target.value;
+          urlParams.set(url_param, e.target.value)
+          history.pushState({},'','?'+urlParams.toString());
+        }
+      }
+
+      const playUrlInput = document.getElementById('playUrl');
+      let playUrl = (urlParams.get('playUrl') || playUrlInput.value);
+      playUrlInput.value = playUrl;
+      playUrlInput.addEventListener('input', configurationChangeHandler('playUrl'));
+
+      function handleAVCheckboxChange(checkbox) {
+            var checkboxes = document.getElementsByName("avcheckbox");
+            
+            if (checkbox.checked) {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i] !== checkbox) {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+        }
+
+      const video = document.querySelector('video');
+
+      document.addEventListener("DOMContentLoaded", function(event) {
+
+        let player;
+
+        document.getElementById("playBtn").addEventListener("click", function () {
+          player = new WebRTCPlayer({
+            video: video,
+            type: 'whep',
+            statsTypeFilter: '^candidate-*|^inbound-rtp',
+            debug: true,
+            audioOnly: document.getElementById('audioOnlyChck').checked,
+            videoOnly: document.getElementById('videoOnlyChck').checked
+          });
+          player.load(new URL(playUrl));
+        });
+
+        document.getElementById("stopBtn").addEventListener("click", function () {
+          player.unload();
+        });
+      });
+    </script>
+  </body>
+</html>
