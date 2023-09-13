@@ -57,13 +57,13 @@ player.on('stats:inbound-rtp', (report) => {
 
 ## Usage as browser Library
 
-# Add library to HTML
+### Add library to HTML
 
 ```javascript
 <script defer="defer" src="webrtc-player.js"></script>
 ```
 
-# Usage
+### Usage
 
 ```javascript
 const video = document.querySelector('video');
@@ -74,7 +74,7 @@ const player = new WebRTCPlayer({
 player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
 ```
 
-# Full example
+### Full example
 
 ```javascript
 <!DOCTYPE html>
