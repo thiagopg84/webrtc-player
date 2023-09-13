@@ -55,6 +55,48 @@ player.on('stats:inbound-rtp', (report) => {
 });
 ```
 
+## Usage as browser Library
+
+# Add library to HTML
+
+```javascript
+<script defer="defer" src="webrtc-player.js"></script>
+```
+
+# Usage
+
+```javascript
+const video = document.querySelector('video');
+const player = new WebRTCPlayer({
+  video: video,
+  type: 'whep'
+});
+player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
+```
+
+# Full example
+
+```javascript
+<!DOCTYPE html>
+<html>
+  <head>
+    <script defer="defer" src="webrtc-player.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", 
+      const video = document.querySelector('video');
+      const player = new WebRTCPlayer({
+        video: video,
+        type: 'whep'
+      });
+      player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream''));
+      });
+    </script>
+  </body>
+</html>
+```
+
 ## Options
 
 ```
