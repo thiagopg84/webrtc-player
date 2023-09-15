@@ -35,7 +35,7 @@
     "dev": "parcel --target demo --dist-dir dist-demo --host 0.0.0.0 --port 2345 --no-cache",
     "build": "parcel build --target main --target types",
     "build:demo": "parcel build --target demo",
-    "build:demo-lib": "parcel build --target demo-lib",
+    "build:demo-lib": "parcel build --target demo-lib --public-url '.'",
     "postversion": "git push && git push --tags",
     "prepare": "husky install",
     "lint": "eslint .",
