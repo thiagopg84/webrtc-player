@@ -108,6 +108,10 @@ player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
   vmapUrl?: string; // url to endpoint to obtain VMAP XML (ads)
   statsTypeFilter?: string; // regexp to match what RTC stats events will be emitted
   timeoutThreshold?: number; // timeout in ms until no-media event is emitted (default 30000 ms)
+  mediaConstraints?: {
+    audioOnly?: boolean, // sets the "audio-only" playback mode (default: false)
+    videoOnly?: boolean // sets the "video-only" playback mode (default: false)
+  }
 }
 ```
 
