@@ -29,6 +29,14 @@
       "engines": {
         "browsers": "last 1 chrome version"
       }
+    },
+    "browser-lib": {
+      "source": "demo-lib/demo-lib.ts",
+      "distDir": "./dist-demo-lib",
+      "isLibrary": false,
+      "engines": {
+        "browsers": "last 1 chrome version"
+      }
     }
   },
   "scripts": {
@@ -36,6 +44,7 @@
     "build": "parcel build --target main --target types",
     "build:demo": "parcel build --target demo",
     "build:demo-lib": "parcel build --target demo-lib --public-url '.'",
+    "build:browser-lib": "parcel build --target browser-lib --no-cache",
     "postversion": "git push && git push --tags",
     "prepare": "husky install",
     "lint": "eslint .",

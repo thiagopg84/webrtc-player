@@ -1,0 +1,4 @@
+{
+    "extends": "@parcel/config-default",
+    "namers": [ "./demo-lib/parcel-namer-lib.ts", "..." ]
+  }
