@@ -50,7 +50,7 @@ player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
 
 ## Options
 
-```
+```javascript
 {
   video: HTMLVideoElement;
   iceServers: RTCIceServer[]; // ICE server config
