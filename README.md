@@ -1,10 +1,15 @@
 # WebRTC player
 
+[Demo](https://softvelum.com/webrtc/demo-player/)
+
 ## Getting Started
+
+[Download](https://github.com/Softvelum/webrtc-player/releases/latest)
+
 
 ### Add library to HTML
 
-```javascript
+```html
 <script defer="defer" src="webrtc-player.js"></script>
 ```
 
@@ -21,7 +26,7 @@ player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
 
 ### Full example
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
   <head>
