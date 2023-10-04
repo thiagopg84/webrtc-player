@@ -66,9 +66,13 @@ player.load(new URL('https://127.0.0.1:8443/live/whip/whep.stream'));
 }
 ```
 
+## Nimble Streamer setup
+Please refer to [WHEP WebRTC playback setup](https://blog.wmspanel.com/2023/09/whep-webrtc-low-latency-playback-nimble.html) article to learn more about the setup process on Nimble Streamer side.
+ 
 ## Related documentation
-- [WebRTC in Softvelum products](https://softvelum.com/webrtc/)
-- [WebRTC setup in Nimble Streamer](https://blog.wmspanel.com/2022/05/webrtc-publish-setup-nimble-streamer.html)
+- [WebRTC WHIP ingest setup in Nimble Streamer](https://blog.wmspanel.com/2022/05/webrtc-publish-setup-nimble-streamer.html)
 - Video: [WebRTC ingest setup in Nimble Streamer](https://www.youtube.com/watch?v=o7DnQuLLerM)
 - [Opus audio support in SLDP](https://blog.wmspanel.com/2022/07/opus-sldp.html)
 - [Play audio-only SLDP with Opus on iPhone](https://blog.wmspanel.com/2022/09/audio-sldp-opus-webrtc-iphone.html)
+- [WebRTC in Softvelum products](https://softvelum.com/webrtc/)
+  
