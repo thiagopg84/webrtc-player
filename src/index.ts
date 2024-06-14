@@ -12,7 +12,9 @@ enum Message {
   NO_MEDIA = 'no-media',
   MEDIA_RECOVERED = 'media-recovered',
   PEER_CONNECTION_FAILED = 'peer-connection-failed',
-  INITIAL_CONNECTION_FAILED = 'initial-connection-failed'
+  PEER_CONNECTION_CONNECTED = 'peer-connection-connected',
+  INITIAL_CONNECTION_FAILED = 'initial-connection-failed',
+  CONNECT_ERROR = 'connect-error'
 }
 
 export interface MediaConstraints {
@@ -48,6 +50,7 @@ export class WebRTCPlayer extends EventEmitter {
   private iceServers: RTCIceServer[];
   private debug: boolean;
   private channelUrl: URL = <URL>{};
+  private authKey?: string = undefined;
   private reconnectAttemptsLeft: number = RECONNECT_ATTEMPTS;
   private csaiManager?: CSAIManager;
   private adapter: Adapter = <Adapter>{};
@@ -93,8 +96,9 @@ export class WebRTCPlayer extends EventEmitter {
     }
   }
 
-  async load(channelUrl: URL) {
+  async load(channelUrl: URL, authKey: string | undefined = undefined) {
     this.channelUrl = channelUrl;
+    this.authKey = authKey;
     this.connect();
   }
 
@@ -127,6 +131,7 @@ export class WebRTCPlayer extends EventEmitter {
       this.reconnectAttemptsLeft--;
     } else if (this.peer.connectionState === 'connected') {
       this.log('Connected');
+      this.emit(Message.PEER_CONNECTION_CONNECTED);
       this.reconnectAttemptsLeft = RECONNECT_ATTEMPTS;
     }
   }
@@ -145,6 +150,11 @@ export class WebRTCPlayer extends EventEmitter {
         this.peer && this.peer.close();
         this.videoElement.srcObject = null;
         this.emit(Message.INITIAL_CONNECTION_FAILED);
+        break;
+      case 'connecterror':
+        this.peer && this.peer.close();
+        this.adapter.resetPeer(this.peer);
+        this.emit(Message.CONNECT_ERROR);
         break;
     }
   }
@@ -229,14 +239,16 @@ export class WebRTCPlayer extends EventEmitter {
         this.peer,
         this.channelUrl,
         this.onErrorHandler.bind(this),
-        this.mediaConstraints
+        this.mediaConstraints,
+        this.authKey
       );
     } else if (this.adapterFactory) {
       this.adapter = this.adapterFactory(
         this.peer,
         this.channelUrl,
         this.onErrorHandler.bind(this),
-        this.mediaConstraints
+        this.mediaConstraints,
+        this.authKey
       );
     }
     if (!this.adapter) {
