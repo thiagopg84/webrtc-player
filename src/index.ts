@@ -96,6 +96,12 @@ export class WebRTCPlayer extends EventEmitter {
     }
   }
 
+  emitError(): void {
+    this.videoElement.dispatchEvent(new CustomEvent('webrtcError', { detail: {
+      url: this.channelUrl.href
+    }}))
+  }
+
   async load(channelUrl: URL, authKey: string | undefined = undefined) {
     this.channelUrl = channelUrl;
     this.authKey = authKey;
@@ -111,6 +117,7 @@ export class WebRTCPlayer extends EventEmitter {
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   private error(...args: any[]) {
+    this.emitError();
     console.error('WebRTC-player', ...args);
   }
 
@@ -138,6 +145,7 @@ export class WebRTCPlayer extends EventEmitter {
 
   private onErrorHandler(error: string) {
     this.log(`onError=${error}`);
+    this.emitError();
     switch (error) {
       case 'reconnectneeded':
         this.peer && this.peer.close();
@@ -240,6 +248,7 @@ export class WebRTCPlayer extends EventEmitter {
         this.channelUrl,
         this.onErrorHandler.bind(this),
         this.mediaConstraints,
+        this.videoElement,
         this.authKey
       );
     } else if (this.adapterFactory) {
@@ -266,6 +275,7 @@ export class WebRTCPlayer extends EventEmitter {
     try {
       await this.adapter.connect();
     } catch (error) {
+      this.emitError();
       console.error(error);
       this.stop();
     }

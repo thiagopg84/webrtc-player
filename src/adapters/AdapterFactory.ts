@@ -58,11 +58,12 @@ export function AdapterFactory(
   type: string,
   peer: RTCPeerConnection,
   channelUrl: URL,
-  onError: (error: string) => void,
+  onError: (error: string, videoElement?: HTMLVideoElement) => void,
   mediaConstraints: MediaConstraints,
+  videoElement?: HTMLVideoElement,
   authKey?: string
 ): Adapter {
-  return adapters[type](peer, channelUrl, onError, mediaConstraints, authKey);
+  return adapters[type](peer, channelUrl, (error) => onError(error, videoElement), mediaConstraints, authKey);
 }
 
 export function ListAvailableAdapters(): string[] {
